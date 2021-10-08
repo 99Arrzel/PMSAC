@@ -1,5 +1,5 @@
 # PMSAC
-# Poor's Man System Attendance Control
+# Poor Man's System Attendance Control
 Es un sistema de control básico que escanea códigos de barras, hecho para estar en una laptop por ahí o una PC viejazanga, para hacer un control de asistencia sin necesidad de nada más, te tira los registros en excel, pdf o CSV y también los podes imprimir, además de que hay un buscador por si tenes muchos registros
 La base de datos es un archivo JSON y simplemente se genera un datatables de este, falta algo de diseño CSS pero por ahora safa 👍  
 Requisitos:  
