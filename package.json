@@ -1,0 +1,26 @@
+{
+  "name": "controldeasistenciaenexcel",
+  "version": "1.0.0",
+  "description": "Control de asistencias simple",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "zzzz"
+  ],
+  "author": "Andres Carrillo",
+  "license": "MIT",
+  "dependencies": {
+    "barcode-detector": "^1.0.0",
+    "body-parser": "^1.19.0",
+    "datatables.net": "^1.11.3",
+    "datatables.net-bs4": "^1.11.3",
+    "express": "^4.17.1",
+    "formidable": "^1.2.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}
