@@ -12,5 +12,8 @@ Screenshot del registro
 No hay imagen en el primero porque la borré del directorio IMG, varias imagenes son de un gif de Nikokado Avocado llorando jaja  
 ![image](https://user-images.githubusercontent.com/64380067/136613192-7491e39a-3b11-4151-ac1d-15db5bfa614e.png)
 
+# UPDATE  
+Ahora se puede listar todas las marcas.
+![image](https://user-images.githubusercontent.com/64380067/137189768-39997728-3470-47b1-b9da-a81d00293baf.png)
 
 
