@@ -1,30 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <link href="/dependencias/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="/dependencias/js/bootstrap.bundle.min.js"></script>
+    <link href="/dependencias/css/filepond.css" rel="stylesheet" />
+    <script src="/dependencias/js/filepond.js"></script>
+    <script src="/dependencias/js/filepond-plugin-file-rename.js"></script>
+    <script src="/dependencias/js/filepond-plugin-file-validate-type.js"></script>
+    <script src="/dependencias/js/jquery-3.6.0.min.js"></script>
+    <!-- Datatables -->
+    <script
+      type="text/javascript"
+      src="/dependencias/js/datatables.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/dependencias/js/pdfmake.min.js"
+    ></script>
+    <script type="text/javascript" src="/dependencias/js/vfs_fonts.js"></script>
+    <link
+      href="/dependencias/css/datatables.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
 
-<head>
-  <link href="/dependencias/css/bootstrap.min.css" rel="stylesheet" />
-  <script src="/dependencias/js/bootstrap.bundle.min.js"></script>
-  <link href="/dependencias/css/filepond.css" rel="stylesheet" />
-  <script src="/dependencias/js/filepond.js"></script>
-  <script src="/dependencias/js/filepond-plugin-file-rename.js"></script>
-  <script src="/dependencias/js/filepond-plugin-file-validate-type.js"></script>
-  <script src="/dependencias/js/jquery-3.6.0.min.js"></script>
-  <!-- Datatables -->
-  <script type="text/javascript" src="/dependencias/js/datatables.min.js"></script>
-  <script type="text/javascript" src="/dependencias/js/pdfmake.min.js"></script>
-  <script type="text/javascript" src="/dependencias/js/vfs_fonts.js"></script>
-  <link href="/dependencias/css/datatables.min.css" rel="stylesheet" type="text/css">
-  </link>
-  <!-- Datatables -->
-  <meta charset="UTF-8" />
-  <title>Control de asistencia</title>
-</head>
+    <!-- Datatables -->
+    <meta charset="UTF-8" />
+    <title>Control de asistencia</title>
+  </head>
 
-<body>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-4">
-        <img style="
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4">
+          <img
+            style="
               min-width: 90%;
               max-width: 100%;
               height: auto;
@@ -32,91 +42,364 @@
               margin-right: auto;
               margin-bottom: auto;
               margin-top: auto;
-            " alt="Imagen de usuario" src="img/1.jpg" class="rounded-circle d-flex justify-content-center"
-          id="imgSource" />
+            "
+            alt="Imagen de usuario"
+            src="img/1.jpg"
+            class="rounded-circle d-flex justify-content-center"
+            id="imgSource"
+          />
 
-        <input type="file" id="inputUpload" disabled />
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="Nombre"> Nombre: </label>
-          <input type="text" class="form-control" id="Nombre" autocomplete="off" />
+          <input type="file" id="inputUpload" disabled />
         </div>
-        <br />
-        <div class="form-group">
-          <label for="Apellido"> Apellido: </label>
-          <input type="text" class="form-control" id="Apellido" autocomplete="off" />
-        </div>
-        <br />
-        <div class="form-group">
-          <label for="Puesto"> Puesto: </label>
-          <select class="form-control" name="puesto" id="puesto">
-            <option value="DIRECTOR">DIRECTOR</option>
-            <option value="PERSONAL">PERSONAL</option>
-            <option value="PASANTE">PASANTE</option>
-          </select>
-        </div>
-        <br />
-        <form action="/" method="POST">
-          <label for="idInput"> Carnet de identidad: </label>
-          <input type="text" class="form-control" name="idInput" id="idInput" autocomplete="off"
-            onkeydown="desBloquear()" />
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="Nombre"> Nombre: </label>
+            <input
+              type="text"
+              class="form-control"
+              id="Nombre"
+              autocomplete="off"
+            />
+          </div>
           <br />
-          <button id="botonRegistrar" type="button" class="btn btn-success btn-lg" onclick="consulta()" disabled>
-            Registrar
+          <div class="form-group">
+            <label for="Apellido"> Apellido: </label>
+            <input
+              type="text"
+              class="form-control"
+              id="Apellido"
+              autocomplete="off"
+            />
+          </div>
+          <br />
+          <div class="form-group">
+            <label for="Puesto"> Puesto: </label>
+            <select class="form-control" name="puesto" id="puesto">
+              <option value="DIRECTOR">DIRECTOR</option>
+              <option value="PERSONAL">PERSONAL</option>
+              <option value="PASANTE">PASANTE</option>
+            </select>
+          </div>
+          <br />
+          <form action="/" method="POST">
+            <label for="idInput"> Carnet de identidad: </label>
+            <input
+              type="text"
+              class="form-control"
+              name="idInput"
+              id="idInput"
+              autocomplete="off"
+              onkeydown="desBloquear()"
+            />
+            <br />
+            <button
+              id="botonRegistrar"
+              type="button"
+              class="btn btn-success btn-lg"
+              onclick="consulta()"
+              disabled
+            >
+              Registrar
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="container-fluid align">
+        <!-- Datatables desde acá -->
+        <div class="col-md-12">
+          <button
+            class="btn btn-primary form-control"
+            data-bs-toggle="modal"
+            data-bs-target="#asistenciaModal"
+          >
+            Ver todos los registros
           </button>
-        </form>
-      </div>
-    </div>
-    <div class="container-fluid align">
-      <!-- Datatables desde acá -->
-      <div class="col-md-12">
-        <div class="justify-content-center">
-          <br />
-          <br />
-          <table id="table_id" class="display" style="width:100%">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Puesto</th>
-                <th>Carnet</th>
-                <th>Foto</th>
-                <th>Ver Marcas</th>
-              </tr>
-            </thead>
-          </table>
         </div>
-        <!-- Modal para editar usuario -->
-        <div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="miModalLabel"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <table id="tabla_detalles" class="display" style="width:100%">
-                  <thead>
-                    <tr>
-                      <th>Fecha</th>
-                      <th>Hora</th>
-                      <th>Tipo</th>
-                    </tr>
-                  </thead>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <div class="col-md-12">
+          <div class="justify-content-center">
+            <br />
+            <br />
+            <table id="table_id" class="display" style="width: 100%">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Puesto</th>
+                  <th>Carnet</th>
+                  <th>Foto</th>
+                  <th>Ver Marcas</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+          <!-- Modal para editar usuario -->
+          <div
+            class="modal fade"
+            id="miModal"
+            tabindex="-1"
+            aria-labelledby="miModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="miModalLabel"></h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <table
+                    id="tabla_detalles"
+                    class="display"
+                    style="width: 100%"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Tipo</th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Cerrar
+                  </button>
+                </div>
               </div>
             </div>
           </div>
+          <!-- FIN de modal para insertar usuario -->
         </div>
-        <!-- FIN de modal para insertar usuario -->
       </div>
-</body>
-<script src="/dependencias/js/modalAsistencia.js"></script>
-<script src="/dependencias/js/filepondGozu.js"></script>
-<script src="/dependencias/js/bootbox.js"></script>
-<script src="/dependencias/js/validaciones.js"></script>
+    </div>
+    <!-- Modal para imprimir datos -->
+    <div
+      class="modal fade"
+      id="asistenciaModal"
+      tabindex="-1"
+      aria-labelledby="asistenciaModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="asistenciaModalLabel"></h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <table id="tabla_asistencias" class="display" style="width: 100%">
+              <thead>
+                <tr>
+                  <th>CI</th>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Puesto</th>
+                  <th>Fecha</th>
+                  <th>Hora de entrada</th>
+                  <th>Hora de salida</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- FIN de modal para insertar usuario -->
+  </body>
 
+  <script src="/dependencias/js/modalAsistencia.js"></script>
+  <script src="/dependencias/js/filepondGozu.js"></script>
+  <script src="/dependencias/js/bootbox.js"></script>
+  <script src="/dependencias/js/validaciones.js"></script>
+  <script>
+    $(document).ready(function () {
+      tablas.asistencias = $("#tabla_asistencias").DataTable({
+        ajax: {
+          url: "http://localhost:3000/public/registro.json",
+          type: "GET",
+          dataSrc: (json) => {
+            let nuevalista = { data: [] };
+            let skipThisOne = false;
+            json.data.forEach((empleado) => {
+              empleado.marcas.forEach((marca, index) => {
+                if (skipThisOne) {
+                  skipThisOne = false;
+                  return;
+                }
+                if (index + 1 in empleado.marcas) {
+                  if (
+                    empleado.marcas[index].fecha ==
+                      empleado.marcas[index + 1].fecha &&
+                    empleado.marcas[index].tipo !=
+                      empleado.marcas[index + 1].tipo
+                  ) {
+                    nuevalista.data.push({
+                      colaborador: empleado.colaborador,
+                      nombre: empleado.nombre,
+                      apellido: empleado.apellido,
+                      puesto: empleado.puesto,
+                      fecha: marca.fecha,
+                      "hora de entrada": empleado.marcas[index].hora,
+                      "hora de salida": empleado.marcas[index + 1].hora,
+                    });
+                    skipThisOne = true;
+                    console.log(empleado.marcas[index].hora);
+                    console.log(empleado.marcas[index + 1].hora);
+                  } else {
+                    nuevalista.data.push({
+                      colaborador: empleado.colaborador,
+                      nombre: empleado.nombre,
+                      apellido: empleado.apellido,
+                      puesto: empleado.puesto,
+                      fecha: marca.fecha,
+                      "hora de entrada": empleado.marcas[index].hora,
+                      "hora de salida": "Aún no marca/No marco",
+                    });
+                    console.log(empleado.marcas[index].hora);
+                  }
+                } else {
+                  nuevalista.data.push({
+                    colaborador: empleado.colaborador,
+                    nombre: empleado.nombre,
+                    apellido: empleado.apellido,
+                    puesto: empleado.puesto,
+                    fecha: marca.fecha,
+                    "hora de entrada": empleado.marcas[index].hora,
+                    "hora de salida": "Aún no marca/No marco",
+                  });
+                  console.log(empleado.marcas[index].hora);
+                }
+              });
+            });
+            console.log(nuevalista);
+            return nuevalista.data;
+          },
+        },
+        buttons: [
+          {
+            extend: "copy",
+            text: "Copiar",
+            exportOptions: {
+              columns: [0, 1, 2],
+            },
+
+            filename: function () {
+              return "Registro General" + " | " + impFecha;
+            },
+            messageTop: function () {
+              return "Registro General" + " | " + impFecha;
+            },
+          },
+          {
+            extend: "csv",
+            text: "CSV",
+            exportOptions: {
+              columns: [0, 1, 2, 3, 4, 5, 6],
+            },
+
+            filename: function () {
+              return "Registro General" + " | " + impFecha;
+            },
+            messageTop: function () {
+              return "Registro General" + " | " + impFecha;
+            },
+          },
+          {
+            extend: "excel",
+            text: "EXCEL",
+            exportOptions: {
+              columns: [0, 1, 2, 3, 4, 5, 6],
+            },
+
+            filename: function () {
+              return "Registro General" + " | " + impFecha;
+            },
+            messageTop: function () {
+              return "Registro General" + " | " + impFecha;
+            },
+          },
+          {
+            extend: "pdf",
+            text: "PDF",
+            exportOptions: {
+              columns: [0, 1, 2, 3, 4, 5, 6],
+            },
+
+            filename: function () {
+              return "Registro General" + " | " + impFecha;
+            },
+            messageTop: function () {
+              return "Registro General" + " | " + impFecha;
+            },
+          },
+          {
+            extend: "print",
+            text: "Imprimir",
+            exportOptions: {
+              columns: [0, 1, 2, 3, 4, 5, 6],
+            },
+            filename: function () {
+              return "Registro General" + " | " + impFecha;
+            },
+            messageTop: function () {
+              return "Registro General" + " | " + impFecha;
+            },
+          },
+        ],
+        dom: "B<lf>rtip",
+        columns: [
+          {
+            data: "colaborador",
+          },
+          {
+            data: "nombre",
+          },
+          {
+            data: "apellido",
+          },
+          {
+            data: "puesto",
+          },
+          {
+            data: "fecha",
+          },
+          {
+            data: "hora de entrada",
+          },
+          {
+            data: "hora de salida",
+          },
+        ],
+        language: tablas.len,
+      });
+    });
+
+    function recargarEstaBasura() {
+      tablas.asistencias.ajax.reload();
+    }
+  </script>
 </html>

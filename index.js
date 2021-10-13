@@ -13,9 +13,15 @@ app.use(
   express.static(path.join(__dirname, "/dependencias/css"))
 );
 app.use(
+  "/DataTables-1.11.3/images/",
+  express.static(path.join(__dirname, "/imagenes_datatables"))
+);
+
+app.use(
   "/dependencias/js",
   express.static(path.join(__dirname, "/dependencias/js"))
 );
+
 app.use("/public", express.static("public"));
 
 app.listen(3000, function () {
@@ -42,7 +48,7 @@ app.post("/getMarcas", (req, res) => {
     res.status(400).end("Error en la consulta.");
     return;
   }
-  let nuevaLista = { "data": [] };
+  let nuevaLista = { data: [] };
   for (let usuario of data.data) {
     if (usuario.colaborador == buscar) {
       for (let marca of usuario.marcas) {
@@ -51,7 +57,7 @@ app.post("/getMarcas", (req, res) => {
       break;
     }
   }
-  console.log(nuevaLista)
+  console.log(nuevaLista);
   res.end(JSON.stringify(nuevaLista));
 });
 
@@ -60,9 +66,26 @@ app.post("/checkId", (req, res) => {
   console.log(buscar);
   for (let usuario of data.data) {
     if (usuario.colaborador == buscar) {
+      let d = new Date();
+      //Año mes y dia
+      let dia =
+        d.getFullYear() +
+        "/" +
+        (d.getMonth() + 1).toString() +
+        "/" +
+        d.getDate().toString();
+      let tiempo =
+        d.getHours().toString() +
+        ":" +
+        (d.getMinutes() < 10 ? "0" : "") +
+        d.getMinutes();
       let fue;
       if (usuario.marcas.length != 0) {
-        if (usuario.marcas[usuario.marcas.length - 1].tipo == "entrada") {
+        if (
+          usuario.marcas[usuario.marcas.length - 1].tipo == "entrada" &&
+          usuario.marcas[usuario.marcas.length - 1].fecha == dia
+        ) {
+          //Fecha que sea igual
           fue = "salida";
         } else {
           fue = "entrada";
@@ -70,18 +93,7 @@ app.post("/checkId", (req, res) => {
       } else {
         fue = "entrada";
       }
-      let d = new Date();
-      let dia =
-        d.getDate().toString() +
-        "/" +
-        (d.getMonth() + 1).toString() +
-        "/" +
-        d.getFullYear();
-      let tiempo =
-        d.getHours().toString() +
-        ":" +
-        (d.getMinutes() < 10 ? "0" : "") +
-        d.getMinutes();
+
       let push = { fecha: dia, hora: tiempo, tipo: fue };
       usuario.marcas.push(push);
       res.end(JSON.stringify(usuario));
