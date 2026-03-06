@@ -36,7 +36,7 @@ app.get("/registro_personal", function (req, res) {
   res.sendFile(__dirname + "/registro_personal.html");
 });
 
-let raw = fs.readFileSync(__dirname + "\\public\\registro.json");
+let raw = fs.readFileSync(path.join(__dirname, "public", "registro.json"));
 let data = JSON.parse(raw);
 app.get("/checkId", (req, res) => {
   res.end("");
@@ -99,7 +99,7 @@ app.post("/checkId", (req, res) => {
       res.end(JSON.stringify(usuario));
       console.log(data);
       fs.writeFileSync(
-        __dirname + "\\public\\registro.json",
+        path.join(__dirname, "public", "registro.json"),
         JSON.stringify(data)
       );
       return;
@@ -141,7 +141,7 @@ app.post("/addUser", (req, res) => {
   try {
     nuevaLista.data.push(nuevoUsuario);
     fs.writeFileSync(
-      __dirname + "\\public\\registro.json",
+      path.join(__dirname, "public", "registro.json"),
       JSON.stringify(nuevaLista)
     );
     res.end("Agregado con exito");
@@ -153,7 +153,7 @@ app.post("/addUser", (req, res) => {
 const restricciones = {
   multiples: false,
   maxFieldsSize: 2 * 1024 * 1024, //Max 2mb
-  uploadDir: __dirname + "\\img",
+  uploadDir: path.join(__dirname, "img"),
 };
 
 app.post("/img/upload", (req, res, next) => {
@@ -167,8 +167,8 @@ app.post("/img/upload", (req, res, next) => {
     console.log(field);
     console.log(file.path);
     console.log(file.name);
-    console.log(file.path, form.uploadDir + "\\" + file.name);
-    fs.renameSync(file.path, form.uploadDir + "\\" + file.name);
+    console.log(file.path, path.join(form.uploadDir, file.name));
+    fs.renameSync(file.path, path.join(form.uploadDir, file.name));
   });
   form.parse(req, (err, field, file) => {
     if (err) {
