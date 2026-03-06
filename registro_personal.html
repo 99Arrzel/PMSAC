@@ -239,7 +239,7 @@
     $(document).ready(function () {
       tablas.asistencias = $("#tabla_asistencias").DataTable({
         ajax: {
-          url: "http://localhost:3000/public/registro.json",
+          url: "/public/registro.json",
           type: "GET",
           dataSrc: (json) => {
             let nuevalista = { data: [] };
